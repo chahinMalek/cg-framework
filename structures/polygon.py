@@ -3,9 +3,13 @@
 """
 
 from typing import List
-from .line_segment import LineSegment
-from .triangle import Triangle
-from .point import Point
+
+from numpy import inf
+
+from structures.line_segment import LineSegment
+from structures.triangle import Triangle
+from structures.point import Point
+
 
 class Polygon:
 
@@ -17,6 +21,24 @@ class Polygon:
 
     def orientation(self) -> int:
         return Triangle(self.points[0], self.points[1], self.points[2]).orientation()
+
+    def number_of_intersections(self, line_segment: LineSegment) -> int:
+        """
+
+        Args:
+            line_segment:
+
+        Returns:
+
+        """
+        intersections_counter = 0
+        points_count = len(self.points)
+        for i in range(1, points_count):
+            first = self.points[i % points_count]
+            second = self.points[(i + 1) % points_count]
+            if LineSegment(first=first, second=second).does_intersect(line_segment):
+                intersections_counter += 1
+        return intersections_counter
 
     def is_simple(self) -> bool:
         """
@@ -35,7 +57,8 @@ class Polygon:
         Returns:
 
         """
-        pass
+        ray = LineSegment(first=point, second=Point(inf, point.y))
+        return self.number_of_intersections(ray) % 2 != 0
 
     def does_intersect(self, line_segment: LineSegment) -> bool:
         """
@@ -46,7 +69,7 @@ class Polygon:
         Returns:
 
         """
-        pass
+        return self.number_of_intersections(line_segment) > 0
 
     def is_empty(self, points: List[Point]) -> bool:
         """
@@ -58,7 +81,6 @@ class Polygon:
 
         """
         pass
-
 
     def is_convex(self) -> bool:
         """
@@ -76,5 +98,9 @@ class Polygon:
                 return False
         return True
 
+
+ls = LineSegment(Point(0, 2), Point(2, 4))
 p = Polygon([Point(2, 0), Point(4, 0), Point(6, 2), Point(4, 4), Point(2, 4), Point(0, 2)])
 print(p.is_convex())
+print(p.does_intersect(ls))
+p.does_contain(Point(2, 3))

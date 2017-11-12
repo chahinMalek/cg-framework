@@ -3,7 +3,7 @@
 """
 
 from typing import List
-from .point import Point
+from structures.point import Point
 from util import sign
 from math import fabs
 
