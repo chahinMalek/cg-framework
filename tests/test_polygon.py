@@ -2,8 +2,8 @@
     Unit tests of Polygon class methods
 """
 
-from point import Point
-from polygon import Polygon
+from structures.point import Point
+from structures.polygon import Polygon
 
 
 def test_orientation() -> None:

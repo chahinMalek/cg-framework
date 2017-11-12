@@ -3,9 +3,9 @@
 """
 
 from typing import List
-from line_segment import LineSegment
-from triangle import Triangle
-from point import Point
+from .line_segment import LineSegment
+from .triangle import Triangle
+from .point import Point
 
 class Polygon:
 

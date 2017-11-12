@@ -2,8 +2,8 @@
     Representation od 2D oriented line segment - with helper methods
 """
 
-from triangle import Triangle
-from point import Point
+from .triangle import Triangle
+from .point import Point
 
 
 class LineSegment:

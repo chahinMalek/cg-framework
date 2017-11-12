@@ -1,5 +1,5 @@
 from typing import List
-from point import Point
+from structures.point import Point
 from numpy import inf
 import operator
 
