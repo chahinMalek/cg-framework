@@ -4,6 +4,7 @@
 
 from structures.triangle import Triangle
 from structures.point import Point
+from conf import *
 
 
 class LineSegment:
@@ -11,8 +12,13 @@ class LineSegment:
         self.first = first
         self.second = second
 
-    def draw(self):
-        pass
+    def draw(self, canvas):
+        first_x = self.first.x + CENTER
+        first_y = -(self.first.y - CENTER)
+        second_x = self.second.x + CENTER
+        second_y = -(self.second.y - CENTER)
+
+        canvas.create_line(first_x, first_y, second_x, second_y, width=1, fill="blue")
 
     def __eq__(self, other: 'LineSegment'):
         """

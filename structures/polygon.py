@@ -16,8 +16,13 @@ class Polygon:
     def __init__(self, points: List[Point]) -> None:
         self.points = points
 
-    def draw(self):
-        pass
+    def draw(self, canvas):
+        first = self.points[0]
+
+        for i in range(0, len(self.points) - 1):
+            LineSegment(self.points[i], self.points[i + 1]).draw(canvas)
+
+        LineSegment(self.points[-1], first).draw(canvas)
 
     def orientation(self) -> int:
         return Triangle(self.points[0], self.points[1], self.points[2]).orientation()

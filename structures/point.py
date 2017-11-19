@@ -4,6 +4,7 @@
 
 from collections import namedtuple
 from tkinter import Canvas
+from conf import CENTER
 
 from numpy import inf
 
@@ -12,7 +13,9 @@ class Point(namedtuple('Point', ['x', 'y'])):
 
 
     def draw(self, canvas: Canvas):
-        pass
+        x = self.x + CENTER
+        y = -(self.y - CENTER)
+        canvas.create_line(x - 1, y - 1, x + 1, y + 1, width=3, fill="red")
 
     def euclidean_dist_squared(self, other: 'Point') -> float:
         return (self.x - other.x) * (self.x - other.x) + (self.y - other.y) * (self.y - other.y)
