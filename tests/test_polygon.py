@@ -15,7 +15,15 @@ def test_orientation() -> None:
     pass
 
 
-def test_is_simple() -> None:
+def test_make_simple() -> None:
+    """
+
+        Returns:
+
+        """
+    pass
+
+def test_make_convex() -> None:
     """
 
         Returns:
@@ -33,5 +41,11 @@ def test_does_contain() -> None:
     pass
 
 
+def test_does_intersect() -> None:
+    pass
+
 def test_is_empty() -> None:
+    pass
+
+def test_is_convex() -> None:
     pass
