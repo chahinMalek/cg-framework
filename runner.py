@@ -80,17 +80,12 @@ canvas.create_line(CENTER, 0, CENTER, CANVAS_DIM, width=1, fill="black")
 sidebar = Frame(root, width=160, height=SCREEN_HEIGHT)
 sidebar.grid(row=0, column=1)
 
-polygon_btn = Button(sidebar, text='Make polygon', command=make_polygon, padx=29, pady=5).grid(row=0, column=1)
-
-simple_btn = Button(sidebar, text='Make simple polygon', command=make_simple_polygon, padx=10, pady=5).grid(row=1, column=1)
-
-convex_hull_btn = Button(sidebar, text='Make convex hull', command=make_convex_hull, padx=21, pady=5).grid(row=2, column=1)
-
-contains_point_btn = Button(sidebar, text='Contains point', command=contains_point, padx=28, pady=5).grid(row=3, column=1)
-
-line_segs_btn = Button(sidebar, text='Does intersect', command=line_segs, padx=30, pady=5).grid(row=4, column=1)
-
-clear_btn = Button(sidebar, text='Clear', command=clear, padx=53, pady=5).grid(row=5, column=1)
+Button(sidebar, text='Make polygon', command=make_polygon, padx=29, pady=5).grid(row=0, column=1)
+Button(sidebar, text='Make simple polygon', command=make_simple_polygon, padx=10, pady=5).grid(row=1, column=1)
+Button(sidebar, text='Make convex hull', command=make_convex_hull, padx=21, pady=5).grid(row=2, column=1)
+Button(sidebar, text='Contains point', command=contains_point, padx=28, pady=5).grid(row=3, column=1)
+Button(sidebar, text='Does intersect', command=line_segs, padx=30, pady=5).grid(row=4, column=1)
+Button(sidebar, text='Clear', command=clear, padx=53, pady=5).grid(row=5, column=1)
 
 
 root.mainloop()
