@@ -27,3 +27,6 @@ class Line(namedtuple('Line', ['k', 'n'])):
             bool: True if lines intersect, False otherwise
         """
         return self.k != other.k or self == other
+
+    def __str__(self):
+        return "Line: y = " + self.k + " * x + " + self.n

@@ -68,3 +68,6 @@ class LineSegment:
             return False
 
         return True
+
+    def __str__(self):
+        return "Line segment: " + str(self.first) + ", " + str(self.second)

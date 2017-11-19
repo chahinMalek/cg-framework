@@ -15,7 +15,7 @@ class Point(namedtuple('Point', ['x', 'y'])):
     def draw(self, canvas: Canvas):
         x = self.x + CENTER
         y = -(self.y - CENTER)
-        canvas.create_line(x - 1, y - 1, x + 1, y + 1, width=3, fill="red")
+        canvas.create_oval(x - 2, y - 2, x + 2, y + 2, width=0, fill="red")
 
     def euclidean_dist_squared(self, other: 'Point') -> float:
         return (self.x - other.x) * (self.x - other.x) + (self.y - other.y) * (self.y - other.y)
@@ -51,4 +51,7 @@ class Point(namedtuple('Point', ['x', 'y'])):
 
     def slope(self, other: 'Point'):
         return 1.0 * (self.y - other.y) / (self.x - other.x) if self.x != other.x else float('inf')
+
+    def __str__(self):
+        return "(" + self.x + ", " + self.y + ")"
 

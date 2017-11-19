@@ -32,6 +32,13 @@ def make_simple_polygon() -> None:
     polygon.make_simple()
     polygon.draw(canvas)
 
+def is_convex() -> None:
+    polygon = Polygon(points)
+    polygon.draw(canvas)
+    if polygon.is_convex():
+        messagebox.showinfo("Result", "Polygon IS convex")
+    else:
+        messagebox.showinfo("Result", "Point IS NOT convex")
 
 def make_convex_hull() -> None:
     polygon = Polygon(points)
@@ -82,10 +89,11 @@ sidebar.grid(row=0, column=1)
 
 Button(sidebar, text='Make polygon', command=make_polygon, padx=29, pady=5).grid(row=0, column=1)
 Button(sidebar, text='Make simple polygon', command=make_simple_polygon, padx=10, pady=5).grid(row=1, column=1)
-Button(sidebar, text='Make convex hull', command=make_convex_hull, padx=21, pady=5).grid(row=2, column=1)
-Button(sidebar, text='Contains point', command=contains_point, padx=28, pady=5).grid(row=3, column=1)
-Button(sidebar, text='Does intersect', command=line_segs, padx=30, pady=5).grid(row=4, column=1)
-Button(sidebar, text='Clear', command=clear, padx=53, pady=5).grid(row=5, column=1)
+Button(sidebar, text='Is convex?', command=is_convex, padx=41, pady=5).grid(row=2, column=1)
+Button(sidebar, text='Make convex hull', command=make_convex_hull, padx=21, pady=5).grid(row=3, column=1)
+Button(sidebar, text='Contains point', command=contains_point, padx=28, pady=5).grid(row=4, column=1)
+Button(sidebar, text='Does intersect?', command=line_segs, padx=27, pady=5).grid(row=5, column=1)
+Button(sidebar, text='Clear', command=clear, padx=53, pady=5).grid(row=6, column=1)
 
 
 root.mainloop()

@@ -146,4 +146,10 @@ class Polygon:
 
         return True
 
+    def __str__(self):
+        result = "Polygon: "
 
+        for point in self.points:
+            result += str(point) + ", "
+
+        return result

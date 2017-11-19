@@ -82,4 +82,5 @@ class Triangle:
                 return False
         return True
 
-
+    def __str__(self):
+        return "Triangle: " + str(self.first) + ", " + str(self.second) + ", " + str(self.third)
