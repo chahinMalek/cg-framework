@@ -5,7 +5,7 @@
 from structures.point import Point
 from structures.polygon import Polygon
 
-
+# TODO write tests
 def test_orientation() -> None:
     """
 

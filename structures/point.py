@@ -8,7 +8,7 @@ from conf import CENTER
 
 from numpy import inf
 
-
+# TODO write docs
 class Point(namedtuple('Point', ['x', 'y'])):
 
 

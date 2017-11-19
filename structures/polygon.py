@@ -10,7 +10,7 @@ from structures.line_segment import LineSegment
 from structures.triangle import Triangle
 from structures.point import Point
 
-
+# TODO write docs
 class Polygon:
 
     def __init__(self, points: List[Point]) -> None:
