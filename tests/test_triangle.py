@@ -80,7 +80,7 @@ def test_does_contain() -> None:
 
 def test_is_empty() -> None:
     """
-
+    Tests if is_empty method works correctly.
     """
     point_1 = Point(x=1, y=2)
     point_2 = Point(x=2, y=-4)

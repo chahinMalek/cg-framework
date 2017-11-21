@@ -22,10 +22,9 @@ class LineSegment:
 
     def __eq__(self, other: 'LineSegment'):
         """
-            Determines if self is same as other.
+        Determines if two line segments (self and other) are the same
         Args:
-            other: Another lineSegment object
-
+            other: Another LineSegment object
         Returns:
             bool: True if line segments are the same, False otherwise
         """
@@ -33,10 +32,9 @@ class LineSegment:
 
     def contains_point(self, point: Point) -> bool:
         """
-            Determines if point "lies" in self
+        Determines if point "lies" in line segment (self)
         Args:
             point: Point object
-
         Returns:
             bool: True if point is part of self LineSegment, False otherwise
         """
@@ -44,12 +42,11 @@ class LineSegment:
 
     def does_intersect(self, other: 'LineSegment') -> bool:
         """
-        Determines if self intersects with other.
+        Determines if two line segments (self and other) intersect
         Args:
             other: Another LineSegment object
-
         Returns:
-            bool: True if two segments instersect or match. False otherwise
+            bool: True if two segments intersect or match. False otherwise
         """
         if self == other:
             return True

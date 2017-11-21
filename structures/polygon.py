@@ -4,11 +4,10 @@
 
 from typing import List
 
-from numpy import inf
-import operator
 from structures.line_segment import LineSegment
 from structures.triangle import Triangle
 from structures.point import Point
+from util import sign
 
 # TODO write docs
 class Polygon:
@@ -25,7 +24,16 @@ class Polygon:
         LineSegment(self.points[-1], first).draw(canvas)
 
     def orientation(self) -> int:
-        return Triangle(self.points[0], self.points[1], self.points[2]).orientation()
+        """
+        Returns:
+            Orientation of polygon (self)
+        """
+        sum = 0
+        for i in range(0, len(self.points)-1):
+            current = self.points[i]
+            next = self.points[i + 1]
+            sum += (next.x - current.x) * (next.y - current.y)
+        return sign(sum)
 
     def number_of_intersections(self, line_segment: LineSegment) -> int:
         """
@@ -56,19 +64,29 @@ class Polygon:
 
     def make_simple(self) -> None:
         """
-
-        Args:
-            input_points:
-
-        Returns:
-
+        For a given polygon (self), transforms it to simple polygon.
         """
 
-        left_point = sorted(self.points, key=operator.attrgetter('x'))[0]
-        self.points = sorted(self.points, key=left_point.get_tan)
+        def get_tan(point: 'Point') -> tuple:
+
+            distance = left_point.euclidean_dist_squared(point)
+
+            tan = left_point.slope(point)
+
+            if left_point.y == point.y:
+                distance *= -1
+
+            return tan, distance
+
+
+        left_point = sorted(self.points, key= lambda point: (point.x, -point.y))[0]
+        self.points = sorted(self.points, key= lambda point: left_point.get_tan(point))
 
     def make_convex_hull(self) -> None:
-
+        """
+        For a given polygon (self), transforms it to convex hull of itself. Implements Graham scan.
+        Starts from left most bottom most point. Sorts other points in CCW order.
+        """
         def min_key(point: Point) -> tuple:
             return point.x, point.y
 
@@ -90,12 +108,11 @@ class Polygon:
 
     def does_contain(self, point: Point) -> bool:
         """
-
+        Determines if point "lies" in polygon (self)
         Args:
-            point:
-
+            point: Point object to be tested
         Returns:
-
+            True if point is in polygon, False otherwise
         """
         ray = LineSegment(first=point, second=Point(1000000, point.y))
         num_of_int = self.number_of_intersections(ray)
@@ -114,12 +131,11 @@ class Polygon:
 
     def is_empty(self, points: List[Point]) -> bool:
         """
-
+        For a list of points determines if any of them "lie" in polygon (self)
         Args:
-            points:
-
+            points: List od Point objects to be tested
         Returns:
-
+            True if no points are inside the polygon, False otherwise
         """
         for point in points:
             if self.does_contain(point):
@@ -128,9 +144,9 @@ class Polygon:
 
     def is_convex(self) -> bool:
         """
-
+        Determines if polygon (self) is convex
         Returns:
-
+            True if polygon is convex, False otherwise
         """
         start_triangle_orientation = Triangle(self.points[0], self.points[1], self.points[2]).orientation()
         points_count = len(self.points)

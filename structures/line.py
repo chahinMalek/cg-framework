@@ -9,10 +9,9 @@ class Line(namedtuple('Line', ['k', 'n'])):
 
     def __eq__(self, other: 'Line') -> bool:
         """
-            Determines if self is same as other.
+        Determines if two lines (self and other) are the same.
         Args:
             other: Another line object
-
         Returns:
             bool: True if lines are the same, False otherwise
         """
@@ -20,13 +19,13 @@ class Line(namedtuple('Line', ['k', 'n'])):
 
     def does_intersect(self, other: 'Line') -> bool:
         """
-        Determines if self intersects with other
+        Determines if two lines (self and other) intersect
         Args:
-            other: another line
+            other: Another line object
         Returns:
             bool: True if lines intersect, False otherwise
         """
         return self.k != other.k or self == other
 
     def __str__(self):
-        return "Line: y = " + self.k + " * x + " + self.n
+        return "Line: y = " + str(self.k) + " * x + " + str(self.n)

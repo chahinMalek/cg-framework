@@ -1,7 +1,6 @@
 """
-    Collection of utility functions
+    Collection of utility functions and constants
 """
-
 
 def sign(number) -> int:
     if number > 0:
