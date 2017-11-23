@@ -6,7 +6,6 @@ from collections import namedtuple
 from tkinter import Canvas
 from conf import CENTER
 
-# TODO write docs
 class Point(namedtuple('Point', ['x', 'y'])):
 
 
@@ -25,11 +24,17 @@ class Point(namedtuple('Point', ['x', 'y'])):
         """
         return (self.x - other.x) * (self.x - other.x) + (self.y - other.y) * (self.y - other.y)
 
-
-    def __eq__(self, other: 'Point'):
+    def __eq__(self, other: 'Point') -> bool:
         return self.x == other.x and self.y == other.y
 
-    def slope(self, other: 'Point'):
+    def slope(self, other: 'Point') -> float:
+        """
+        Calculates slope between two points (self and other)
+        Args:
+            other: Point object
+        Returns:
+            slope between two points
+        """
         if self.x != other.x:
             return 1.0 * (self.y - other.y) / (self.x - other.x)
         else:

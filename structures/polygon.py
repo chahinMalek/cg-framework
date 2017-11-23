@@ -2,18 +2,24 @@
     Representation of 2D polygon - with helper methods
 """
 
-from typing import List
+from typing import List, Tuple
 
 from structures.line_segment import LineSegment
 from structures.triangle import Triangle
 from structures.point import Point
 from util import sign
+from conf import PSEUDO_INF
 
-# TODO write docs
 class Polygon:
 
     def __init__(self, points: List[Point]) -> None:
-        self.points = points
+        if len(points) > 2:
+            self.points = points
+        else:
+            raise ValueError("points length less than 3")
+
+    def __eq__(self, other: 'Polygon'):
+        return self.points == other.points
 
     def draw(self, canvas):
         first = self.points[0]
@@ -35,36 +41,38 @@ class Polygon:
             sum += (next.x - current.x) * (next.y - current.y)
         return sign(sum)
 
-    def number_of_intersections(self, line_segment: LineSegment) -> int:
+    def number_of_intersections(self, line_segment: LineSegment) -> Tuple[int, bool]:
         """
-
+        Determines number of times that LineSegment object intersects with polygon (self)
         Args:
-            line_segment:
-
+            line_segment: LineSegment object
         Returns:
-
+            tuple consisting of int and bool. int is number of intersections, bool is True if point "lies"
+            on one of the edges of the polygon
         """
         intersections_counter = 0
+        on_edge = False
         points_count = len(self.points)
 
-        for i in range(0, points_count-1):
+        for i in range(0, points_count):
 
-            first = self.points[i]
-            second = self.points[i + 1]
+            first = self.points[i % points_count]
+            second = self.points[(i + 1) % points_count]
 
-            if LineSegment(first=first, second=second).does_intersect(line_segment):
+            current_line_segment = LineSegment(first=first, second=second)
+
+            if current_line_segment.does_contain(line_segment.first):
+                on_edge = True
+
+            if current_line_segment.does_intersect(line_segment):
                 intersections_counter += 1
 
-        last = self.points[-1]
-        first = self.points[0]
-        if LineSegment(first=last, second=first).does_intersect(line_segment):
-            intersections_counter += 1
-
-        return intersections_counter
+        return intersections_counter, on_edge
 
     def make_simple(self) -> None:
         """
         For a given polygon (self), transforms it to simple polygon.
+        Starts from left most top most point.
         """
 
         def get_tan(point: 'Point') -> tuple:
@@ -78,9 +86,8 @@ class Polygon:
 
             return tan, distance
 
-
         left_point = sorted(self.points, key= lambda point: (point.x, -point.y))[0]
-        self.points = sorted(self.points, key= lambda point: left_point.get_tan(point))
+        self.points = sorted(self.points, key= lambda point: get_tan(point))
 
     def make_convex_hull(self) -> None:
         """
@@ -114,9 +121,9 @@ class Polygon:
         Returns:
             True if point is in polygon, False otherwise
         """
-        ray = LineSegment(first=point, second=Point(1000000, point.y))
-        num_of_int = self.number_of_intersections(ray)
-        return num_of_int % 2 != 0
+        ray = LineSegment(first=point, second=Point(PSEUDO_INF, point.y))
+        num_of_int, on_edge = self.number_of_intersections(ray)
+        return num_of_int % 2 != 0 or on_edge
 
     def does_intersect(self, line_segment: LineSegment) -> bool:
         """
@@ -127,7 +134,7 @@ class Polygon:
         Returns:
 
         """
-        return self.number_of_intersections(line_segment) > 0
+        return self.number_of_intersections(line_segment)[0] > 0
 
     def is_empty(self, points: List[Point]) -> bool:
         """
@@ -151,7 +158,7 @@ class Polygon:
         start_triangle_orientation = Triangle(self.points[0], self.points[1], self.points[2]).orientation()
         points_count = len(self.points)
 
-        for i in range(1, points_count):
+        for i in range(0, points_count):
 
             first = self.points[i % points_count]
             second = self.points[(i + 1) % points_count]

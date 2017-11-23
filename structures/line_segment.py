@@ -4,7 +4,7 @@
 
 from structures.triangle import Triangle
 from structures.point import Point
-from conf import *
+from conf import CENTER
 
 
 class LineSegment:
@@ -30,7 +30,7 @@ class LineSegment:
         """
         return self.first == other.first and self.second == other.second
 
-    def contains_point(self, point: Point) -> bool:
+    def does_contain(self, point: Point) -> bool:
         """
         Determines if point "lies" in line segment (self)
         Args:
@@ -51,7 +51,7 @@ class LineSegment:
         if self == other:
             return True
 
-        if self.contains_point(other.first) or self.contains_point(other.second):
+        if self.does_contain(other.first) or self.does_contain(other.second):
             return True
 
         orientation_1 = Triangle(self.first, self.second, other.first).orientation()

@@ -5,6 +5,21 @@ from structures.point import Point
 from structures.line_segment import LineSegment
 
 
+def test__eq__() -> None:
+    """
+        Tests if overriden __eq__ method works correctly
+    """
+    point_1 = Point(x=1, y=2)
+    point_2 = Point(x=-2, y=-4)
+    point_3 = Point(x=3, y=3)
+    point_4 = Point(x=0, y=0)
+    line_segment_1 = LineSegment(first=point_1, second=point_2)
+    line_segment_2 = LineSegment(first=point_1, second=point_2)
+    line_segment_3 = LineSegment(first=point_3, second=point_4)
+
+    assert line_segment_1 == line_segment_2
+    assert not line_segment_1 == line_segment_3
+
 def test_contains_point() -> None:
     """
         Tests if contains_point determines relationship between line_segment and point correctly.
@@ -17,10 +32,10 @@ def test_contains_point() -> None:
 
     line_segment = LineSegment(first=point_1, second=point_2)
 
-    assert line_segment.contains_point(point_1)
-    assert line_segment.contains_point(point_2)
-    assert not line_segment.contains_point(point_3)
-    assert line_segment.contains_point(point_4)
+    assert line_segment.does_contain(point_1)
+    assert line_segment.does_contain(point_2)
+    assert not line_segment.does_contain(point_3)
+    assert line_segment.does_contain(point_4)
 
 
 def test_does_intersect() -> None:

@@ -44,7 +44,7 @@ def test_determinant() -> None:
 
 def test_orientation() -> None:
     """
-        Tests if Triangle class method determinant works correctly
+        Tests if Triangle class method orientation works correctly
     """
     point_1 = Point(x=1, y=2)
     point_2 = Point(x=2, y=-4)
@@ -73,9 +73,21 @@ def test_area() -> None:
 
 def test_does_contain() -> None:
     """
-
+        Tests if does contain method works correctly. Two common and one edge case
     """
-    pass
+    point_1 = Point(x=3, y=4)
+    point_2 = Point(x=3, y=0)
+    point_3 = Point(x=0, y=0)
+
+    point_in = Point(x=2, y=2)
+    point_out = Point(x=0, y=5)
+    point_edge = Point(x=2, y=0)
+
+    triangle = Triangle(first=point_1, second=point_2, third=point_3)
+
+    assert triangle.does_contain(point_in)
+    assert not triangle.does_contain(point_out)
+    assert triangle.does_contain(point_edge)
 
 
 def test_is_empty() -> None:

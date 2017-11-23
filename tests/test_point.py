@@ -17,3 +17,11 @@ def test_euclidean_dist_squared() -> None:
     assert point_1.euclidean_dist_squared(point_2) == 25
     assert point_1.euclidean_dist_squared(point_3) == 16
     assert point_1.euclidean_dist_squared(point_4) == 9
+
+def test_slope() -> None:
+    point_1 = Point(x=3, y=4)
+    point_2 = Point(x=0, y=0)
+
+    assert point_1.slope(point_1) == float('inf')
+    assert point_1.slope(point_2) == 4 / 3
+    assert point_2.slope(point_1) == 4 / 3
