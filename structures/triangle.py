@@ -32,7 +32,7 @@ class Triangle:
         """
         Calculates the determinant of a triangle (cross product of 2 vector sides)
         Returns:
-            Aeterminant of the triangle (self)
+            Determinant of the triangle (self)
         """
         return (self.second.x - self.first.x) * (self.third.y - self.second.y) - \
                (self.third.x - self.second.x) * (self.second.y - self.first.y)

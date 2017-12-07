@@ -34,16 +34,16 @@ class Polygon:
         Returns:
             Orientation of polygon (self)
         """
-        sum = 0
+        orientation_sum = 0
         for i in range(0, len(self.points)-1):
-            current = self.points[i]
-            next = self.points[i + 1]
-            sum += (next.x - current.x) * (next.y - current.y)
-        return sign(sum)
+            current_point = self.points[i]
+            next_point = self.points[i + 1]
+            orientation_sum += (next_point.x - current_point.x) * (next_point.y - current_point.y)
+        return sign(orientation_sum)
 
     def number_of_intersections(self, line_segment: LineSegment) -> Tuple[int, bool]:
         """
-        Determines number of times that LineSegment object intersects with polygon (self)
+        HELPER: Determines number of times that LineSegment object intersects with polygon (self)
         Args:
             line_segment: LineSegment object
         Returns:
@@ -86,8 +86,8 @@ class Polygon:
 
             return tan, distance
 
-        left_point = sorted(self.points, key= lambda point: (point.x, -point.y))[0]
-        self.points = sorted(self.points, key= lambda point: get_tan(point))
+        left_point = sorted(self.points, key=lambda point: (point.x, -point.y))[0]
+        self.points = sorted(self.points, key=lambda point: get_tan(point))
 
     def make_convex_hull(self) -> None:
         """
@@ -121,18 +121,19 @@ class Polygon:
         Returns:
             True if point is in polygon, False otherwise
         """
+        # NOTE: PSEUDO_INF used instead of float("inf") of numpy.inf because usage of these
+        # methods gave incorrect results. Float comparison error?
         ray = LineSegment(first=point, second=Point(PSEUDO_INF, point.y))
         num_of_int, on_edge = self.number_of_intersections(ray)
         return num_of_int % 2 != 0 or on_edge
 
     def does_intersect(self, line_segment: LineSegment) -> bool:
         """
-
+            Determines if line segment and polygon (line_segment, self) intersect
         Args:
-            line_segment:
-
+            line_segment: LineSegment object.
         Returns:
-
+            True if line_segment and self intersect. False otherwise
         """
         return self.number_of_intersections(line_segment)[0] > 0
 
@@ -151,7 +152,8 @@ class Polygon:
 
     def is_convex(self) -> bool:
         """
-        Determines if polygon (self) is convex
+        Determines if polygon (self) is convex. Loops over polygon points.
+        For every three consecutive point checks if their orientation matches start_triangle_orientation
         Returns:
             True if polygon is convex, False otherwise
         """
