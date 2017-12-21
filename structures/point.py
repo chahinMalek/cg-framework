@@ -7,7 +7,8 @@ from tkinter import Canvas
 from conf import CENTER
 
 class Point(namedtuple('Point', ['x', 'y'])):
-
+    # Fali komentar. Pogledati note u structures.line glede komentarisanja
+    # klasa.
 
     def draw(self, canvas: Canvas):
         x = self.x + CENTER
@@ -40,5 +41,6 @@ class Point(namedtuple('Point', ['x', 'y'])):
         else:
             return float('inf')
 
-    def __str__(self):
+    def __str__(self):  # Fali return type: str
+        # Fali komentar.
         return "(" + str(self.x) + ", " + str(self.y) + ")"

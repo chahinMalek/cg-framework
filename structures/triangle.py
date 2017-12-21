@@ -9,8 +9,10 @@ from math import fabs
 
 
 class Triangle:
-
+    # Fali komentar. Pogledati note u structures.line glede komentarisanja
+    # klasa.
     def __init__(self, first: Point, second: Point, third: Point) -> None:
+        # Fali komentar
         self.first = first
         self.second = second
         self.third = third
@@ -34,6 +36,8 @@ class Triangle:
         Returns:
             Determinant of the triangle (self)
         """
+
+        # Backslash NE koristiti za prelamanje linija (ni pod razno).
         return (self.second.x - self.first.x) * (self.third.y - self.second.y) - \
                (self.third.x - self.second.x) * (self.second.y - self.first.y)
 
@@ -64,6 +68,7 @@ class Triangle:
         t1_area = Triangle(point, self.first, self.second).area()
         t2_area = Triangle(point, self.second, self.third).area()
         t3_area = Triangle(point, self.first, self.third).area()
+        # Neka return ima prostora
         return t1_area + t2_area + t3_area == self.area()
 
     def is_empty(self, points: List[Point]) -> bool:
@@ -77,7 +82,9 @@ class Triangle:
         for point in points:
             if self.does_contain(point):
                 return False
+        # Neka petlja i return imaju prostora da disu
         return True
 
-    def __str__(self):
+    def __str__(self): # Fali return type
+        # Fali komentar
         return "Triangle: " + str(self.first) + ", " + str(self.second) + ", " + str(self.third)

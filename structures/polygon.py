@@ -11,17 +11,21 @@ from util import sign
 from conf import PSEUDO_INF
 
 class Polygon:
-
+    # Fali komentar. Pogledati note u structures.line glede komentarisanja
+    # klasa.
     def __init__(self, points: List[Point]) -> None:
+        # Fali komentar
         if len(points) > 2:
             self.points = points
         else:
             raise ValueError("points length less than 3")
 
-    def __eq__(self, other: 'Polygon'):
+    def __eq__(self, other: 'Polygon'): # Fali return type: -> bool
+        # Fali komentar
         return self.points == other.points
 
-    def draw(self, canvas):
+    def draw(self, canvas): # Fali return type: -> None i tip varijable canvas
+        # Fali komentar
         first = self.points[0]
 
         for i in range(0, len(self.points) - 1):
@@ -35,10 +39,14 @@ class Polygon:
             Orientation of polygon (self)
         """
         orientation_sum = 0
+        # Petljama i if uslovima se uvijek daje "prostora". Ostavljaj po jednu
+        # praznu liniju prije i nakon svake petlje/uslova. Kao ispod:
+
         for i in range(0, len(self.points)-1):
             current_point = self.points[i]
             next_point = self.points[i + 1]
             orientation_sum += (next_point.x - current_point.x) * (next_point.y - current_point.y)
+
         return sign(orientation_sum)
 
     def number_of_intersections(self, line_segment: LineSegment) -> Tuple[int, bool]:
@@ -75,8 +83,10 @@ class Polygon:
         Starts from left most top most point.
         """
 
-        def get_tan(point: 'Point') -> tuple:
-
+        def _get_tan(point: 'Point') -> tuple: # Inner metode pocinju sa underscoreom.
+            # Fali komentar ove metode. Takodjer. Return type-ovi treba da budu
+            # sto deskriptivniji. Tako bi u ovom slucaju bilo dobro da stoji
+            # -> Tuple[float, float]
             distance = left_point.euclidean_dist_squared(point)
 
             tan = left_point.slope(point)
@@ -94,10 +104,12 @@ class Polygon:
         For a given polygon (self), transforms it to convex hull of itself. Implements Graham scan.
         Starts from left most bottom most point. Sorts other points in CCW order.
         """
-        def min_key(point: Point) -> tuple:
+        def min_key(point: Point) -> tuple: # Komentar kao i gore za get_tan.
+            # Komentar kao i gore za get_tan.
             return point.x, point.y
 
-        def sort_key(point: Point) -> tuple:
+        def sort_key(point: Point) -> tuple: # Komentar kao i gore za get_tan.
+            # Komentar kao i gore za get_tan.
             return point.slope(start), -point.y, point.x
 
         start = min(self.points, key=min_key)
@@ -106,8 +118,10 @@ class Polygon:
         self.points.sort(key=sort_key)
 
         convex_hull = [start]
+        # Petlje vole prostor oko sebe (note iznad L42).
         for point in self.points:
             convex_hull.append(point)
+            # Petlje moraju imati prostora da disu (note iznad L42).
             while len(convex_hull) > 2 and Triangle(convex_hull[-3], convex_hull[-2], convex_hull[-1]).orientation() < 0:
                 convex_hull.pop(-2)
 
@@ -125,6 +139,8 @@ class Polygon:
         # methods gave incorrect results. Float comparison error?
         ray = LineSegment(first=point, second=Point(PSEUDO_INF, point.y))
         num_of_int, on_edge = self.number_of_intersections(ray)
+        # Kako petlje, tako i return mora imati prostora oko sebe.
+        # Dodaj samo jednu praznu liniju.
         return num_of_int % 2 != 0 or on_edge
 
     def does_intersect(self, line_segment: LineSegment) -> bool:
@@ -145,9 +161,11 @@ class Polygon:
         Returns:
             True if no points are inside the polygon, False otherwise
         """
+        # Petlje vole prostor oko sebe (note iznad L42).
         for point in points:
             if self.does_contain(point):
                 return False
+        # Return (i petlja) voli prostor oko sebe (note iznad L42 i L142).
         return True
 
     def is_convex(self) -> bool:
@@ -171,7 +189,8 @@ class Polygon:
 
         return True
 
-    def __str__(self):
+    def __str__(self): # Fali return type: str
+        # Fali komentar
         result = "Polygon: "
 
         for point in self.points:

@@ -1,0 +1,23 @@
+- Maksimalna duzina linije je 80 po latest google standardu
+- Ostavljaj jednu praznu liniju izmedju cjelina unutar komentara.
+    Jedan primjer komentara iz projekta:
+    """
+        Determines if two lines (self and other) are the same.
+        Args:
+            other: Another line object
+        Returns:
+            bool: True if lines are the same, False otherwise
+    """
+    Primjer istog komentara, ljepse struktuiranog:
+    """
+        Determines if two lines (self and other) are the same.
+
+        Args:
+            other: Another line object
+
+        Returns:
+            bool: True if lines are the same, False otherwise
+    """
+- Nista se ne podrazumijeva (od tipova ili komentara, za koje na prvu djeluje da
+    zaista nema potrebe za iste, pa nadalje). Tipovi i komentari se uvijek pisu.
+- Za konstrukciju kompleksnih stringova koristiti .format() radje nego operator +

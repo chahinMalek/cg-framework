@@ -1,3 +1,4 @@
+# Nema komentara ...ok...rekao si da je ovaj file samo za private testiranje, je li?
 from tkinter import *
 from tkinter import messagebox
 

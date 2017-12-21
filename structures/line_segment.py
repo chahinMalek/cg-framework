@@ -8,11 +8,15 @@ from conf import CENTER
 
 
 class LineSegment:
-    def __init__(self, first: Point, second: Point):
+    # Fali komentar. Pogledati note u structures.line glede komentarisanja
+    # klasa.
+    def __init__(self, first: Point, second: Point): # Fali return type. U ovom slucaju: -> None
+        # Fali komentar
         self.first = first
         self.second = second
 
-    def draw(self, canvas):
+    def draw(self, canvas): # Fali return type. U ovom slucaju: -> None. Takodjer, fali tip varijable canvas.
+        # Fali komentar
         first_x = self.first.x + CENTER
         first_y = -(self.first.y - CENTER)
         second_x = self.second.x + CENTER
@@ -20,7 +24,7 @@ class LineSegment:
 
         canvas.create_line(first_x, first_y, second_x, second_y, width=1, fill="blue")
 
-    def __eq__(self, other: 'LineSegment'):
+    def __eq__(self, other: 'LineSegment'): # Fali return type: -> bool
         """
         Determines if two line segments (self and other) are the same
         Args:
@@ -66,5 +70,6 @@ class LineSegment:
 
         return True
 
-    def __str__(self):
+    def __str__(self): # Fali return type: str
+        # Fali komentar
         return "Line segment: " + str(self.first) + ", " + str(self.second)
