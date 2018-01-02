@@ -4,8 +4,9 @@
 
 from typing import List
 from structures.point import Point
-from util import sign
 from math import fabs
+
+from util import determinant
 
 
 class Triangle:
@@ -26,24 +27,9 @@ class Triangle:
         Returns:
             True if triangles are the same, False otherwise
         """
-        return self.first == other.first and self.second == other.second and self.third == other.third
-
-    def determinant(self) -> float:
-        """
-        Calculates the determinant of a triangle (cross product of 2 vector sides)
-        Returns:
-            Determinant of the triangle (self)
-        """
-        return (self.second.x - self.first.x) * (self.third.y - self.second.y) - \
-               (self.third.x - self.second.x) * (self.second.y - self.first.y)
-
-    def orientation(self) -> int:
-        """
-        Determines orientation of a triangle (self)
-        Returns:
-            -1 for CW, 1 for CCW and 0 for collinear
-        """
-        return sign(self.determinant())
+        return (self.first == other.first and
+                self.second == other.second and
+                self.third == other.third)
 
     def area(self):
         """
@@ -51,7 +37,7 @@ class Triangle:
         Returns:
             Area of the triangle (self)
         """
-        return fabs(self.determinant())/2.0
+        return fabs(determinant(self.first, self.second, self.third))/2.0
 
     def does_contain(self, point: Point) -> bool:
         """
@@ -79,5 +65,8 @@ class Triangle:
                 return False
         return True
 
-    def __str__(self):
-        return "Triangle: " + str(self.first) + ", " + str(self.second) + ", " + str(self.third)
+    def __str__(self) -> str:
+        """
+        Returns: String representation of a triangle as 3 points
+        """
+        return "Triangle {}, {}, {}".format(self.first, self.second, self.third)

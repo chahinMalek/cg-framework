@@ -18,7 +18,11 @@ def test_euclidean_dist_squared() -> None:
     assert point_1.euclidean_dist_squared(point_3) == 16
     assert point_1.euclidean_dist_squared(point_4) == 9
 
+
 def test_slope() -> None:
+    """
+        Tests if slope function works correctly.
+    """
     point_1 = Point(x=3, y=4)
     point_2 = Point(x=0, y=0)
 
