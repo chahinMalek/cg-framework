@@ -5,9 +5,8 @@
 from typing import List, Tuple
 
 from structures.line_segment import LineSegment
-from structures.triangle import Triangle
 from structures.point import Point
-from util import sign, orientation
+from util import sign, orientation, neighbors
 from conf import PSEUDO_INF
 
 
@@ -187,8 +186,8 @@ class Polygon:
             True if polygon is convex, False otherwise
         """
         start_triangle_orientation = orientation(self.points[0],
-                                              self.points[1],
-                                              self.points[2])
+                                                 self.points[1],
+                                                 self.points[2])
 
         points_count = len(self.points)
 
@@ -202,6 +201,28 @@ class Polygon:
                 return False
 
         return True
+
+    def diagonals_from_point(self, start_point: Point) -> List[LineSegment]:
+        """
+
+        Args:
+            start_point:
+
+        Returns:
+
+        """
+        self.make_simple()
+        diagonals = []
+
+        for index, point in enumerate(self.points):
+
+            if not neighbors(start_point, point, self.points):
+                diagonals.append(LineSegment(start_point, point))
+
+        return diagonals
+
+    def has_diagonal(self, diagonal: LineSegment) -> bool:
+        return not neighbors(diagonal.first, diagonal.second, self.points)
 
     def __str__(self) -> str:
         """

@@ -3,6 +3,8 @@
 """
 
 from typing import List
+
+from structures.line_segment import LineSegment
 from structures.point import Point
 from math import fabs
 
@@ -65,8 +67,18 @@ class Triangle:
                 return False
         return True
 
+    def get_segments(self) -> List[LineSegment]:
+        segments = []
+        segments.append(LineSegment(self.first, self.second))
+        segments.append(LineSegment(self.second, self.third))
+        segments.append(LineSegment(self.third, self.first))
+        return segments
+
     def __str__(self) -> str:
         """
         Returns: String representation of a triangle as 3 points
         """
         return "Triangle {}, {}, {}".format(self.first, self.second, self.third)
+
+    def __repr__(self) -> str:
+        return str(self)

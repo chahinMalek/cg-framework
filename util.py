@@ -1,10 +1,20 @@
 """
     Collection of utility functions and constants
 """
+from typing import List
+
 from structures.point import Point
 
 
 def sign(number) -> int:
+    """
+
+    Args:
+        number:
+
+    Returns:
+
+    """
     if number > 0:
         return 1
     elif number < 0:
@@ -32,3 +42,31 @@ def orientation(first: Point, second: Point, third: Point) -> int:
         -1 for CW, 1 for CCW and 0 for collinear
     """
     return sign(determinant(first, second, third))
+
+
+def neighbors(first: Point, second: Point, points: List[Point]) -> bool:
+    """
+    Determines if 2 points are next to each other in polygon.
+    Args:
+        first: First point.
+        second: Second point.
+        points: List of points in polygon.
+
+    Returns:
+        True if points are next to each other, False otherwise.
+    """
+    if first == second:
+        return True
+
+    first_index, second_index = points.index(first), points.index(second)
+
+    if first_index == second_index + 1 or first_index == second_index - 1:
+        return True
+
+    if first_index == 0 and second_index == len(points) - 1:
+        return True
+
+    if second_index == 0 and first_index == len(points) - 1:
+        return True
+
+    return False

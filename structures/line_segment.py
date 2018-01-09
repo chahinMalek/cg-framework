@@ -53,6 +53,8 @@ class LineSegment:
 
         return self.first == other.first and self.second == other.second
 
+
+
     def does_contain(self, point: Point) -> bool:
         """
         Determines if point "lies" in line segment (self)
@@ -65,6 +67,20 @@ class LineSegment:
         """
 
         return orientation(self.first, self.second, point) == 0
+
+    def reversed(self) -> 'LineSegment':
+        return LineSegment(self.second, self.first)
+
+    def is_equal_undirected(self, other: 'LineSegment') -> bool:
+        """
+
+        Args:
+            other:
+
+        Returns:
+
+        """
+        return self == other or self == other.reversed()
 
     def does_intersect(self, other: 'LineSegment') -> bool:
         """
@@ -103,3 +119,6 @@ class LineSegment:
         """
 
         return "Line segment: " + str(self.first) + ", " + str(self.second)
+
+    def __repr__(self) -> str:
+        return self.__str__()
