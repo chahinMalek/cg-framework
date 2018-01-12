@@ -1,32 +1,36 @@
 from typing import List
 
+from structures.line_segment import LineSegment
 from structures.point import Point
 from structures.polygon import Polygon
 from structures.triangle import Triangle
 from tree import Node, Tree
+from util import orientation
 import sys
 
 sys.setrecursionlimit(100000)
 
 def polygon_remainders(triangle: Triangle, polygon: Polygon) -> List[Polygon]:
+    diags = []
+    for segment in triangle.get_segments():
+        if polygon.has_diagonal(segment):
+            diags.append(segment)
 
-    diagonals = [segment for segment in triangle.get_segments() if
-                 polygon.has_diagonal(segment)]
-
-    if len(diagonals) == 1:
+    if len(diags) == 1:
+        diag = diags[0]
         remainder_points = list(polygon.points)
-        if not diagonals[0].does_contain(triangle.first):
+        if not diag.does_contain(triangle.first):
             remainder_points.remove(triangle.first)
-        if not diagonals[0].does_contain(triangle.second):
+        if not diag.does_contain(triangle.second):
             remainder_points.remove(triangle.second)
-        if not diagonals[0].does_contain(triangle.third):
+        if not diag.does_contain(triangle.third):
             remainder_points.remove(triangle.third)
-        return [Polygon(remainder_points), None]
+        return [Polygon(remainder_points)]
     else:
-        if diagonals[1].does_contain(diagonals[0].first):
-            common_point = diagonals[0].first
+        if diags[1].does_contain(diags[0].first):
+            common_point = diags[0].first
         else:
-            common_point = diagonals[0].second
+            common_point = diags[0].second
 
         common_point_index = polygon.points.index(common_point)
         return [Polygon(polygon.points[1:common_point_index+1]), Polygon(
@@ -37,7 +41,6 @@ def extend_triangulation(parent: Node, new_triangle: Triangle) -> List[Triangle]
     triangles_so_far = list(parent.data)
     triangles_so_far.append(new_triangle)
     return triangles_so_far
-
 
 def merge_triangs(first: Node, second: Node):
     first_leaf_nodes = Tree(first).get_leaf_nodes()
@@ -69,7 +72,7 @@ def generate_triangulations(polygon: Polygon, parent: Node):
                                                     point]), parent)
 
         generate_triangulations(remainders[0], sub_root)
-        if remainders[1]:
+        if len(remainders) == 2:
             second_part_root = Node([])
             generate_triangulations(remainders[1], second_part_root)
             merge_triangs(sub_root, second_part_root)
@@ -84,13 +87,10 @@ hexagon = Polygon([Point(0, 0), Point(1, -1), Point(2, 0),
 septagon = Polygon([Point(1, 0), Point(2, 0), Point(3, 1), Point(3, 2),
                      Point(1.5, 3), Point(0, 2), Point(0, 1)])
 
-octagon = Polygon([Point(1, 0), Point(2, 0), Point(3, 1), Point(3, 2),
-                   Point(2, 3), Point(1, 3), Point(0, 2), Point(0, 1)])
-
-octagon.make_simple()
+septagon.make_simple()
 print(pentagon)
 
 tree = Tree(Node([]))
-generate_triangulations(octagon, tree.root)
+generate_triangulations(septagon, tree.root)
 for node in tree.get_leaf_nodes():
     print(node)
