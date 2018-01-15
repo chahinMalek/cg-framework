@@ -8,11 +8,13 @@ from structures.point import Point
 
 def sign(number) -> int:
     """
+    Corresponds to math "sgn" function.
 
     Args:
-        number:
+        number: Any number.
 
-    Returns:
+    Returns: Sign of a given number. -1 if number is negative, 1 if it is
+             positive and 0 if it is 0.
 
     """
     if number > 0:

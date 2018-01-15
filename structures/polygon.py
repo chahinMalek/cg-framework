@@ -13,18 +13,38 @@ from conf import PSEUDO_INF
 class Polygon:
 
     def __init__(self, points: List[Point]) -> None:
-        # TODO docs
+        """
+        Creates new Polygon object from list of point objects.
+
+        Args:
+            points: List of points.
+        """
         if len(points) > 2:
             self.points = points
         else:
             raise ValueError("Points length less than 3")
 
     def __eq__(self, other: 'Polygon'):
-        # TODO docs
+        """
+        Determines if two polygon objects (self and other) are the same.
+
+        Args:
+            other: Another Polygon object
+
+        Returns:
+
+        """
         return self.points == other.points
 
-    def draw(self, canvas):
-        # TODO docs
+    def draw(self, canvas) -> None:
+        """
+        Draws polygon object onto the canvas.Takes translation into
+        consideration.
+
+        Args:
+            canvas: Canvas object on which line segment will be drawn to.
+        """
+
         first = self.points[0]
 
         for i in range(0, len(self.points) - 1):
@@ -41,8 +61,8 @@ class Polygon:
         for i in range(0, len(self.points)-1):
 
             current = self.points[i]
-            next = self.points[i + 1]
-            orientation_sum += (next.x - current.x) * (next.y - current.y)
+            next_p = self.points[i + 1]
+            orientation_sum += (next_p.x - current.x) * (next_p.y - current.y)
 
         return sign(orientation_sum)
 
@@ -83,13 +103,20 @@ class Polygon:
         Starts from left most top most point.
         """
 
-        def get_tan(point: 'Point') -> tuple:
-            # TODO docs
-            distance = left_p.euclidean_dist_squared(point)
+        def get_tan(_point: 'Point') -> tuple:
+            """
+            Calculates tangent value of angle between ref_point and _point.
+            Args:
+                _point: Point object.
 
-            tan = left_p.slope(point)
+            Returns: Value of tan between ref_point and _point.
 
-            if left_p.y == point.y:
+            """
+            distance = left_p.euclidean_dist_squared(_point)
+
+            tan = left_p.slope(_point)
+
+            if left_p.y == _point.y:
                 distance *= -1
 
             return tan, distance
@@ -104,19 +131,19 @@ class Polygon:
         other points in CCW order.
         """
 
-        def _sort_key(point: Point) -> Tuple[float, float, float]:
+        def _sort_key(_point: Point) -> Tuple[float, float, float]:
             """
             HELPER. Defines sorting order of points.
 
             Args:
-                point: Point object.
+                _point: Point object.
 
             Returns:
                 Tuple consisting of comparison oreder priority (slope, -y, x)
             """
-            return point.slope(start), -point.y, point.x
+            return _point.slope(start), -_point.y, _point.x
 
-        start = min(self.points, key=lambda point: (point.x, point.y))
+        start = min(self.points, key=lambda _point: (_point.x, _point.y))
         self.points.pop(self.points.index(start))
 
         self.points.sort(key=_sort_key)
@@ -205,7 +232,16 @@ class Polygon:
         return True
 
     def diagonals_from_point(self, start_point: Point) -> List[LineSegment]:
-        #TODO docs
+        """
+        For a given polygon points, creates all diagonals that start in
+        that point.
+
+        Args:
+            start_point: One of the points of the polygon
+
+        Returns: List of LineSegments (diagonals)
+
+        """
         self.make_simple()
         diagonals = []
 
@@ -217,7 +253,14 @@ class Polygon:
         return diagonals
 
     def has_diagonal(self, diagonal: LineSegment) -> bool:
-        # TODO docs
+        """
+        For a given line segment object, determines if it is a diagonal of
+        the polygon (self)
+        Args:
+            diagonal: LineSegment object that will be tested.
+
+        Returns: True if it is diagonal, False otherwise.
+        """
         return not neighbors(diagonal.first, diagonal.second, self.points)
 
     def __str__(self) -> str:
@@ -230,7 +273,3 @@ class Polygon:
             result = "{}{}".format(result, point)
 
         return result
-
-    def __repr__(self) -> str:
-        # TODO docs
-        return str(self)

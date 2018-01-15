@@ -14,12 +14,18 @@ from util import determinant
 class Triangle:
 
     def __init__(self, first: Point, second: Point, third: Point) -> None:
+        """
+        Creates Triangle object from three passed point objects.
+
+        Args:
+            first: point object.
+            second: point object.
+            third: point object.
+
+        """
         self.first = first
         self.second = second
         self.third = third
-
-    def draw(self) -> None:
-        pass
 
     def __eq__(self, other: 'Triangle') -> bool:
         """

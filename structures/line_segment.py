@@ -67,7 +67,13 @@ class LineSegment:
         return orientation(self.first, self.second, point) == 0
 
     def reversed(self) -> 'LineSegment':
-        #TODO docs
+        """
+        Reverses direction of LineSegment (self) by switching first and
+        second point.
+
+        Returns: Reversed line segment.
+        """
+
         return LineSegment(self.second, self.first)
 
     def is_equal_undirected(self, other: 'LineSegment') -> bool:
