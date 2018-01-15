@@ -19,6 +19,7 @@ class Line(namedtuple('Line', ['k', 'n'])):
         Returns:
             bool: True if lines are the same, False otherwise
         """
+
         return self.k == other.k and self.n == other.n
 
     def does_intersect(self, other: 'Line') -> bool:

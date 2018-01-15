@@ -13,15 +13,18 @@ from conf import PSEUDO_INF
 class Polygon:
 
     def __init__(self, points: List[Point]) -> None:
+        # TODO docs
         if len(points) > 2:
             self.points = points
         else:
             raise ValueError("Points length less than 3")
 
     def __eq__(self, other: 'Polygon'):
+        # TODO docs
         return self.points == other.points
 
     def draw(self, canvas):
+        # TODO docs
         first = self.points[0]
 
         for i in range(0, len(self.points) - 1):
@@ -31,8 +34,7 @@ class Polygon:
 
     def orientation(self) -> int:
         """
-        Returns:
-            Orientation of polygon (self)
+        Returns: Orientation of polygon (self)
         """
         orientation_sum = 0
 
@@ -56,8 +58,8 @@ class Polygon:
             tuple consisting of int and bool. int is number of intersections,
             bool is True if point "lies" on one of the edges of the polygon
         """
-        intersections_counter = 0
-        on_edge = False
+
+        intersections_counter, on_edge = 0, False
         points_count = len(self.points)
 
         for i in range(0, points_count):
@@ -82,7 +84,7 @@ class Polygon:
         """
 
         def get_tan(point: 'Point') -> tuple:
-
+            # TODO docs
             distance = left_p.euclidean_dist_squared(point)
 
             tan = left_p.slope(point)
@@ -159,6 +161,7 @@ class Polygon:
         Returns:
             True if line_segment and self intersect. False otherwise
         """
+
         return self.intersection_count(line_segment)[0] > 0
 
     def is_empty(self, points: List[Point]) -> bool:
@@ -185,9 +188,8 @@ class Polygon:
         Returns:
             True if polygon is convex, False otherwise
         """
-        start_triangle_orientation = orientation(self.points[0],
-                                                 self.points[1],
-                                                 self.points[2])
+
+        start_ori = orientation(self.points[0], self.points[1], self.points[2])
 
         points_count = len(self.points)
 
@@ -197,20 +199,13 @@ class Polygon:
             second = self.points[(i + 1) % points_count]
             third = self.points[(i + 2) % points_count]
 
-            if orientation(first, second, third) != start_triangle_orientation:
+            if orientation(first, second, third) != start_ori:
                 return False
 
         return True
 
     def diagonals_from_point(self, start_point: Point) -> List[LineSegment]:
-        """
-
-        Args:
-            start_point:
-
-        Returns:
-
-        """
+        #TODO docs
         self.make_simple()
         diagonals = []
 
@@ -222,6 +217,7 @@ class Polygon:
         return diagonals
 
     def has_diagonal(self, diagonal: LineSegment) -> bool:
+        # TODO docs
         return not neighbors(diagonal.first, diagonal.second, self.points)
 
     def __str__(self) -> str:
@@ -236,4 +232,5 @@ class Polygon:
         return result
 
     def __repr__(self) -> str:
+        # TODO docs
         return str(self)

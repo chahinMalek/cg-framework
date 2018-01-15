@@ -57,8 +57,10 @@ class Triangle:
     def is_empty(self, points: List[Point]) -> bool:
         """
         For a given list of points, checks if any of them are in triangle (self)
+
         Args:
             points: List of point objects to be tested
+
         Returns:
             True if none of the points are inside the triangle, False otherwise
         """
@@ -68,11 +70,22 @@ class Triangle:
         return True
 
     def get_segments(self) -> List[LineSegment]:
-        segments = []
-        segments.append(LineSegment(self.first, self.second))
-        segments.append(LineSegment(self.second, self.third))
-        segments.append(LineSegment(self.third, self.first))
-        return segments
+        """
+        Gets segments of self as a list of three elements.
+
+        Returns: List of three LineSegments.
+        """
+        return [LineSegment(self.first, self.second),
+                LineSegment(self.second, self.third),
+                LineSegment(self.third, self.first)]
+
+    def get_points(self) -> List[Point]:
+        """
+        Gets points of self as a list with three elements.
+
+        Returns: List of three points.
+        """
+        return [self.first, self.second, self.third]
 
     def __str__(self) -> str:
         """
@@ -81,4 +94,7 @@ class Triangle:
         return "Triangle {}, {}, {}".format(self.first, self.second, self.third)
 
     def __repr__(self) -> str:
+        """
+        Returns: String representation of a triangle as 3 points.
+        """
         return str(self)
