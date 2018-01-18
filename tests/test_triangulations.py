@@ -7,9 +7,11 @@ from structures.point import Point
 from structures.polygon import Polygon
 from structures.triangle import Triangle
 from triangulations.tree import Node, Tree
-from triangulations.triangulations import polygon_remainders, \
-    pick_start_segment, rearrange_points, triangulate, \
-    generate_all_triangulations
+from triangulations.triangulations import polygon_remainders
+from triangulations.triangulations import pick_start_segment
+from triangulations.triangulations import rearrange_points
+from triangulations.triangulations import triangulate
+from triangulations.triangulations import generate_all_triangulations
 
 
 def test_polygon_remainders() -> None:

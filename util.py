@@ -49,6 +49,7 @@ def orientation(first: Point, second: Point, third: Point) -> int:
 def neighbors(first: Point, second: Point, points: List[Point]) -> bool:
     """
     Determines if 2 points are next to each other in polygon.
+
     Args:
         first: First point.
         second: Second point.

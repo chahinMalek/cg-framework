@@ -4,7 +4,7 @@ from structures.line_segment import LineSegment
 from structures.point import Point
 from structures.polygon import Polygon
 from structures.triangle import Triangle
-from .tree import Tree, Node
+from triangulations.tree import Tree, Node
 
 from util import orientation
 
@@ -13,6 +13,7 @@ def polygon_remainders(triangle: Triangle, polygon: Polygon) -> List[Polygon]:
     """
     From a given polygon, and a triangle within it, creates smaller remainder or
     two of them (depending on the position of the triangle within the polygon.)
+
     Args:
         triangle: Triangle object that lies within polygon.
         polygon: Convex polygon.
@@ -48,6 +49,7 @@ def polygon_remainders(triangle: Triangle, polygon: Polygon) -> List[Polygon]:
 def extend_triangulation(parent: Node, points: List[Point]) -> List[Triangle]:
     """
     Gets list of triangulations from parent and appends new triangle to it.
+
     Args:
         parent: Parent node.
         points: Points of the new triangle.
@@ -78,8 +80,9 @@ def pick_start_segment(polygon: Polygon) -> LineSegment:
 
             if or_1 != 0 and or_2 != 0:
                 return LineSegment(ref_points[1], ref_points[2])
-    else:
         raise ValueError("Polygon consists only out of collinear points!")
+    else:
+        raise ValueError("Polygon size is less than 3!")
 
 
 def merge_triangulations(first: Node, second: Node) -> None:
@@ -122,7 +125,7 @@ def triangulate(polygon: Polygon, parent: Node) -> Node:
 
     Returns: Leaf nodes if polygon is actually triangle.
     """
-    if len(polygon.points) <= 3:
+    if len(polygon.points) == 3:
         child = Node(extend_triangulation(parent, polygon.points[:3]))
         parent.add_child(child)
 
@@ -150,6 +153,7 @@ def triangulate(polygon: Polygon, parent: Node) -> Node:
 def generate_all_triangulations(polygon: Polygon) -> List[List[Triangle]]:
     """
     Wrapper function for recursive "triangulate" function.
+    
     Args:
         polygon: Polygon that will be triangulated.
 
