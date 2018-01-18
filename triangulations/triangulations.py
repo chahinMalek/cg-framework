@@ -13,7 +13,7 @@ def polygon_remainders(triangle: Triangle, polygon: Polygon) -> List[Polygon]:
     """
     From a given polygon, and a triangle within it, creates smaller remainder or
     two of them (depending on the position of the triangle within the polygon.)
-
+    
     Args:
         triangle: Triangle object that lies within polygon.
         polygon: Convex polygon.
@@ -49,7 +49,7 @@ def polygon_remainders(triangle: Triangle, polygon: Polygon) -> List[Polygon]:
 def extend_triangulation(parent: Node, points: List[Point]) -> List[Triangle]:
     """
     Gets list of triangulations from parent and appends new triangle to it.
-
+    
     Args:
         parent: Parent node.
         points: Points of the new triangle.
