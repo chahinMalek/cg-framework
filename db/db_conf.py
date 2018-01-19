@@ -1,3 +1,7 @@
+"""
+Contains configuration for database acces.
+"""
+
 DRIVER = "postgresql+psycopg2"
 USER = "postgres"
 PASS = "0000"

@@ -3,14 +3,12 @@ from typing import List
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from db.cast import cast_triangulation, cast_polygon, cast_triangle
+from db.cast import cast_triangulation, cast_polygon
 from db.db_conf import DB_URI
-from db.entities import Point, Triangle, Triangulation, Polygon
+from db.models import Polygon
 
-from structures.point import Point as STPoint
 from structures.polygon import Polygon as STPolygon
 from structures.triangle import Triangle as STTriangle
-from triangulations.triangulations import generate_all_triangulations
 
 engine = create_engine(DB_URI)
 

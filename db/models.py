@@ -1,3 +1,6 @@
+"""
+Contains models that correspond to tables in the database.
+"""
 from sqlalchemy import Column, ForeignKey, Integer, Float, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
@@ -18,19 +21,23 @@ polygon_point = Table('polygon_point', Base.metadata,
 
 
 polygon_triangulation = Table('polygon_triangulation', Base.metadata,
-                         Column('polygon', Integer, ForeignKey('polygon.id')),
-                         Column('triangulation', Integer, ForeignKey(
-                             'triangulation.id')))
+                              Column('polygon', Integer, ForeignKey(
+                                     'polygon.id')),
+                              Column('triangulation', Integer, ForeignKey(
+                                     'triangulation.id')))
 
 
 triangulation_triangle = Table('triangulation_triangle', Base.metadata,
-                         Column('triangle', Integer, ForeignKey('triangle.id')),
-                         Column('triangulation', Integer, ForeignKey(
-                             'triangulation.id')))
+                               Column('triangle', Integer, ForeignKey(
+                                      'triangle.id')),
+                               Column('triangulation', Integer, ForeignKey(
+                                      'triangulation.id')))
 
 
 class Point(Base):
+    """Model for point table. Represents 2D point"""
     __tablename__ = 'point'
+
     id = Column(Integer, primary_key=True)
     x = Column(Float)
     y = Column(Float)
@@ -45,7 +52,9 @@ class Point(Base):
 
 
 class Triangle(Base):
+    """Model for triangle table. Represents 2D traingle."""
     __tablename__ = 'triangle'
+
     id = Column(Integer, primary_key=True)
 
     points = relationship("Point", secondary=triangle_point,
@@ -57,26 +66,33 @@ class Triangle(Base):
 
 
 class Triangulation(Base):
+    """
+    Model for triangulation table. Represents list of triangles that form
+    up one triangulation
+    """
     __tablename__ = 'triangulation'
+
     id = Column(Integer, primary_key=True)
 
     polygons = relationship("Polygon", secondary=polygon_triangulation,
-                          back_populates="triangulations")
+                            back_populates="triangulations")
 
-    triangles = relationship("Triangle",
-                                  secondary=triangulation_triangle,
-                                  back_populates="triangulations")
+    triangles = relationship("Triangle", secondary=triangulation_triangle,
+                             back_populates="triangulations")
 
 
 class Polygon(Base):
+    """Model for polygon table. Represents triangulated 2D polygon"""
     __tablename__ = 'polygon'
+
     id = Column(Integer, primary_key=True)
 
     points = relationship("Point", secondary=polygon_point,
                           back_populates="polygons")
 
-    triangulations = relationship("Triangulation", secondary=polygon_triangulation,
-                             back_populates="polygons")
+    triangulations = relationship("Triangulation",
+                                  secondary=polygon_triangulation,
+                                  back_populates="polygons")
 
 
 engine = create_engine(DB_URI)
