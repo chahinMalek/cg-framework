@@ -34,6 +34,9 @@ class Node:
         """
         return not self.children
 
+    def __repr__(self):
+        return str(self.data)
+
 
 class Tree:
 
@@ -52,9 +55,9 @@ class Tree:
         Returns:
             List of all nodes in the tree.
         """
-        nodes_to_visit, visited = list(self.root.children[::-1]), [self.root]
+        nodes_to_visit, visited = list(self.root.children[::-1]), []
 
-        def _dft(stack: List['Node']) -> None:
+        def _dft(stack: List[Node], current: Node) -> None:
             """
             Performs recursive depth first traversal of the tree.
 
@@ -62,16 +65,12 @@ class Tree:
                 stack: Stack containing nodes that will be visited.
 
             """
-            if not stack:
-                return
-
-            current = stack.pop()
             visited.append(current)
-            stack += current.children[::-1]
+            for child in current.children:
+                if child not in visited:
+                    _dft(stack, child)
 
-            _dft(stack)
-
-        _dft(nodes_to_visit)
+        _dft(nodes_to_visit, self.root)
         return visited
 
     def breadth_first_traversal(self) -> List[Node]:
@@ -81,9 +80,9 @@ class Tree:
         Returns:
             List of all nodes in the tree.
         """
-        nodes_to_visit, visited = deque(self.root.children), [self.root]
+        nodes_to_visit, visited = deque(self.root.children), []
 
-        def _bft(queue: Deque['Node']) ->None:
+        def _bft(queue: Deque[Node], current: Node) ->None:
             """
 
             Performs recursive breath first traversal of the tree.
@@ -92,16 +91,12 @@ class Tree:
                 queue: Queue containing nodes that will be visited.
 
             """
-            if not queue:
-                return
-
-            current = queue.popleft()
             visited.append(current)
-            queue += current.children
+            for child in current.children:
+                if child not in visited:
+                    _bft(queue, child)
 
-            _bft(queue)
-
-        _bft(nodes_to_visit)
+        _bft(nodes_to_visit, self.root)
         return visited
 
     def get_nodes(self, algorithm: str="bft") -> List['Node']:
