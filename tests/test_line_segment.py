@@ -51,7 +51,7 @@ def test_does_intersect() -> None:
     line_segment_3 = LineSegment(first=Point(3, 3), second=Point(5, 5))
     line_segment_4 = LineSegment(first=Point(1, 0), second=Point(5, -5))
 
-    assert line_segment_1.does_intersect(reversed_segment)
-    assert line_segment_1.does_intersect(line_segment_2)
-    assert line_segment_1.does_intersect(line_segment_3)
-    assert not line_segment_1.does_intersect(line_segment_4)
+    assert line_segment_1.does_intersect_or_touch(reversed_segment)
+    assert line_segment_1.does_intersect_or_touch(line_segment_2)
+    assert line_segment_1.does_intersect_or_touch(line_segment_3)
+    assert not line_segment_1.does_intersect_or_touch(line_segment_4)

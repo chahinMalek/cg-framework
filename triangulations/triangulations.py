@@ -1,3 +1,5 @@
+from functools import lru_cache
+from time import time
 from typing import List
 
 from structures.line_segment import LineSegment
@@ -21,7 +23,7 @@ def polygon_remainders(triangle: Triangle, polygon: Polygon) -> List[Polygon]:
     Returns:
         One or two smaller polygon remainders.
     """
-    diagonals = [segment for segment in triangle.get_segments() if
+    diagonals = [segment for segment in triangle.get_sides() if
                  polygon.has_diagonal(segment)]
 
     if len(diagonals) == 1:
@@ -64,7 +66,6 @@ def extend_triangulation(parent: Node, points: List[Point]) -> List[Triangle]:
 
 
 def pick_start_segment(polygon: Polygon) -> LineSegment:
-
     points_count = len(polygon.points)
 
     if points_count > 3:
@@ -97,7 +98,6 @@ def merge_triangulations(first: Node, second: Node) -> None:
     """
     first_leaf_nodes = Tree(first).get_leaf_nodes()
     second_leaf_nodes = Tree(second).get_leaf_nodes()
-
     for leaf_1 in first_leaf_nodes:
         for leaf_2 in second_leaf_nodes:
             leaf_1.add_child(Node(leaf_1.data + leaf_2.data))
@@ -140,7 +140,6 @@ def triangulate(polygon: Polygon, parent: Node) -> Node:
         remainders = polygon_remainders(first_triangle, polygon)
         sub_root = triangulate(Polygon([segment.first, segment.second,
                                         point]), parent)
-
         triangulate(remainders[0], sub_root)
 
         if remainders[1]:

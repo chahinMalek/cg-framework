@@ -5,14 +5,14 @@ from tkinter import Canvas
 
 from structures.point import Point
 from conf import CENTER
-from util import orientation
+from util import orientation, determinant, sign
 
 
 class LineSegment:
 
     """ Representation of 2D line segment. """
 
-    def __init__(self, first: Point, second: Point) -> None:
+    def __init__(self, first: Point, second: Point, frontier = True) -> None:
         """
         Creates LineSegment object from 2 passed point objects.
 
@@ -22,6 +22,7 @@ class LineSegment:
         """
         self.first = first
         self.second = second
+        self.frontier = frontier
 
     def draw(self, canvas: Canvas) -> None:
         """
@@ -63,8 +64,18 @@ class LineSegment:
         Returns:
             bool: True if point is part of self LineSegment, False otherwise
         """
+        if point == self.first or point == self.second:
+            return True
 
-        return orientation(self.first, self.second, point) == 0
+        det = determinant(self.first, self.second, point)
+
+        if det != 0:
+            return False
+
+        if sign(det) > self.first.euclidean_dist_squared(self.second):
+            return False
+
+        return True
 
     def reversed(self) -> 'LineSegment':
         """
@@ -89,7 +100,7 @@ class LineSegment:
 
         return self == other or self == other.reversed()
 
-    def does_intersect(self, other: 'LineSegment') -> bool:
+    def does_intersect_or_touch(self, other: 'LineSegment') -> bool:
         """
         Determines if two line segments (self and other) intersect
 
@@ -120,6 +131,9 @@ class LineSegment:
 
         return True
 
+    def length(self) -> float:
+        return self.first.euclidean_dist_squared(self.second)
+
     def __str__(self) -> str:
         """
         Returns: Ordered pair representation of Line segment as string.
@@ -129,3 +143,22 @@ class LineSegment:
 
     def __repr__(self) -> str:
         return self.__str__()
+
+    def strict_intersect(self, other: 'LineSegment'):
+
+        orien_1 = orientation(self.first, self.second, other.first)
+        orien_2 = orientation(self.first, self.second, other.second)
+
+        if orien_1 == orien_2:
+            return False
+
+        orien_3 = orientation(other.first, other.second, self.first)
+        orien_4 = orientation(other.first, other.second, self.second)
+
+        if orien_3 == orien_4:
+            return False
+
+        if self.does_contain(other.first) or self.does_contain(other.second):
+            return False
+
+        return True

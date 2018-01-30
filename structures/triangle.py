@@ -39,6 +39,11 @@ class Triangle:
                 self.second == other.second and
                 self.third == other.third)
 
+    def draw(self, canvas):
+        segments = self.get_sides()
+        for segment in segments:
+            segment.draw(canvas)
+
     def area(self):
         """
         Calculates area of a triangle (self)
@@ -47,7 +52,7 @@ class Triangle:
         """
         return fabs(determinant(self.first, self.second, self.third))/2.0
 
-    def does_contain(self, point: Point) -> bool:
+    def does_contain(self, point: Point, strict: bool = False) -> bool:
         """
         Determines if point is inside the triangle (self)
         Args:
@@ -58,9 +63,13 @@ class Triangle:
         t1_area = Triangle(point, self.first, self.second).area()
         t2_area = Triangle(point, self.second, self.third).area()
         t3_area = Triangle(point, self.first, self.third).area()
-        return t1_area + t2_area + t3_area == self.area()
+        area_sum = t1_area + t2_area + t3_area
+        if not strict:
+            return area_sum == self.area()
+        return area_sum == self.area() and t1_area != 0 and t2_area != 0 and \
+               t3_area != 0
 
-    def is_empty(self, points: List[Point]) -> bool:
+    def is_empty(self, points: List[Point], strict: bool = False) -> bool:
         """
         For a given list of points, checks if any of them are in triangle (self)
 
@@ -71,11 +80,11 @@ class Triangle:
             True if none of the points are inside the triangle, False otherwise
         """
         for point in points:
-            if self.does_contain(point):
+            if self.does_contain(point, strict):
                 return False
         return True
 
-    def get_segments(self) -> List[LineSegment]:
+    def get_sides(self) -> List[LineSegment]:
         """
         Gets segments of self as a list of three elements.
 

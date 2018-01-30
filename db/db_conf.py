@@ -1,5 +1,5 @@
 """
-Contains configuration for database acces.
+Contains configuration for database access.
 """
 
 DRIVER = "postgresql+psycopg2"

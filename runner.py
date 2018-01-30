@@ -1,3 +1,4 @@
+from time import time
 from tkinter import *
 from tkinter import messagebox
 
@@ -6,6 +7,7 @@ from conf import *
 from structures.line_segment import LineSegment
 from structures.point import Point
 from structures.polygon import Polygon
+from sweep_hull.delaunay import delaunay_triangulation
 
 points = []
 
@@ -62,7 +64,7 @@ def line_segs() -> None:
     second = LineSegment(points[2], points[3])
     first.draw(canvas)
     second.draw(canvas)
-    if first.does_intersect(second):
+    if first.does_intersect_or_touch(second):
         messagebox.showinfo("Result", "Segments DO intersect")
     else:
         messagebox.showinfo("Result", "Segments DO NOT intersect")
@@ -73,6 +75,15 @@ def clear() -> None:
     canvas.delete("all")
     canvas.create_line(0, CENTER, CANVAS_DIM, CENTER, width=1, fill="black")
     canvas.create_line(CENTER, 0, CENTER, CANVAS_DIM, width=1, fill="black")
+
+
+def delaunay() -> None:
+    polygon = Polygon(points)
+    a = time()
+    triangulation = delaunay_triangulation(polygon)
+    print(len(points), ": ", time() - a)
+    for triangle in triangulation.triangles:
+        triangle.draw(canvas)
 
 
 root = Tk()
@@ -93,17 +104,18 @@ sidebar.grid(row=0, column=1)
 Button(sidebar, text='Make polygon',
        command=make_polygon, padx=29, pady=5).grid(row=0, column=1)
 Button(sidebar, text='Make simple polygon',
-       command=make_simple_polygon, padx=10, pady=5).grid(row=1, column=1)
+       command=make_simple_polygon, padx=13, pady=5).grid(row=1, column=1)
 Button(sidebar, text='Is convex?',
-       command=is_convex, padx=41, pady=5).grid(row=2, column=1)
+       command=is_convex, padx=36, pady=5).grid(row=2, column=1)
 Button(sidebar, text='Make convex hull',
        command=make_convex_hull, padx=21, pady=5).grid(row=3, column=1)
 Button(sidebar, text='Contains point',
-       command=contains_point, padx=28, pady=5).grid(row=4, column=1)
+       command=contains_point, padx=27, pady=5).grid(row=4, column=1)
 Button(sidebar, text='Does intersect?',
-       command=line_segs, padx=27, pady=5).grid(row=5, column=1)
+       command=line_segs, padx=25, pady=5).grid(row=5, column=1)
 Button(sidebar, text='Clear',
-       command=clear, padx=53, pady=5).grid(row=6, column=1)
-
+       command=clear, padx=49, pady=5).grid(row=6, column=1)
+Button(sidebar, text='Delaunay',
+       command=delaunay, padx=40, pady=5).grid(row=7, column=1)
 
 root.mainloop()

@@ -92,7 +92,7 @@ class Polygon:
             if current_line_segment.does_contain(line_segment.first):
                 on_edge = True
 
-            if current_line_segment.does_intersect(line_segment):
+            if current_line_segment.does_intersect_or_touch(line_segment):
                 intersections_counter += 1
 
         return intersections_counter, on_edge
