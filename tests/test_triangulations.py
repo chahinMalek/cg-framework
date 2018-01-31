@@ -11,8 +11,7 @@ from triangulations.triangulations import polygon_remainders
 from triangulations.triangulations import pick_start_segment
 from triangulations.triangulations import rearrange_points
 from triangulations.triangulations import triangulate
-from triangulations.triangulations import generate_all_triangulations
-
+from triangulations.triangulations import all_triangulations
 
 def test_polygon_remainders() -> None:
     """
@@ -84,15 +83,15 @@ def test_triangulate()-> None:
     assert Tree(root).get_leaf_nodes()[1].data == triangulation_2
 
 
-def test_generate_all_triangulations()-> None:
+def test_all_triangulations()-> None:
     """
-    Tests if generate_all_triangulations works correctly.
+    Tests if all_triangulations works correctly.
     """
     quad = Polygon([Point(0, 0), Point(1, -1), Point(2, 0), Point(2, 1)])
     
-    all_triangulations = [[Triangle(Point(1, -1), Point(2, 0), Point(2, 1)),
+    all_triangs = [[Triangle(Point(1, -1), Point(2, 0), Point(2, 1)),
                            Triangle(Point(1, -1), Point(2, 1), Point(0, 0))],
                           [Triangle(Point(1, -1), Point(2, 0), Point(0, 0)),
                            Triangle(Point(2, 0), Point(2, 1), Point(0, 0))]]
     
-    assert generate_all_triangulations(quad) == all_triangulations
+    assert all_triangulations(quad) == all_triangs

@@ -52,7 +52,7 @@ class Point(Base):
 
 
 class Triangle(Base):
-    """Model for triangle table. Represents 2D traingle."""
+    """Model for triangle table. Represents 2D triangle."""
     __tablename__ = 'triangle'
 
     id = Column(Integer, primary_key=True)

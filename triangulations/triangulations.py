@@ -1,5 +1,3 @@
-from functools import lru_cache
-from time import time
 from typing import List
 
 from structures.line_segment import LineSegment
@@ -149,7 +147,7 @@ def triangulate(polygon: Polygon, parent: Node) -> Node:
             merge_triangulations(sub_root, second_remainder_root)
 
 
-def generate_all_triangulations(polygon: Polygon) -> List[List[Triangle]]:
+def all_triangulations(polygon: Polygon) -> List[List[Triangle]]:
     """
     Wrapper function for recursive "triangulate" function.
     
