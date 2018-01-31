@@ -12,7 +12,7 @@ class LineSegment:
 
     """ Representation of 2D line segment. """
 
-    def __init__(self, first: Point, second: Point, frontier = True) -> None:
+    def __init__(self, first: Point, second: Point, frontier=True) -> None:
         """
         Creates LineSegment object from 2 passed point objects.
 
@@ -132,6 +132,7 @@ class LineSegment:
         return True
 
     def length(self) -> float:
+        #TODO doc
         return self.first.euclidean_dist_squared(self.second)
 
     def __str__(self) -> str:
@@ -142,10 +143,11 @@ class LineSegment:
         return "Line segment: " + str(self.first) + ", " + str(self.second)
 
     def __repr__(self) -> str:
+        # TODO doc
         return self.__str__()
 
     def strict_intersect(self, other: 'LineSegment'):
-
+        # TODO doc
         orien_1 = orientation(self.first, self.second, other.first)
         orien_2 = orientation(self.first, self.second, other.second)
 

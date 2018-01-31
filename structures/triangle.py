@@ -40,6 +40,7 @@ class Triangle:
                 self.third == other.third)
 
     def draw(self, canvas):
+        # TODO doc
         segments = self.get_sides()
         for segment in segments:
             segment.draw(canvas)
