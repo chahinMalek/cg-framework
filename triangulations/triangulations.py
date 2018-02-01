@@ -4,6 +4,7 @@ from structures.line_segment import LineSegment
 from structures.point import Point
 from structures.polygon import Polygon
 from structures.triangle import Triangle
+
 from triangulations.tree import Tree, Node
 
 from util import orientation

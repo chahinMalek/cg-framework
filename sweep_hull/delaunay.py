@@ -1,3 +1,7 @@
+"""
+Contains methods for generation of Delaunay triangulation of a set of points.
+"""
+
 from typing import List, Tuple
 
 from numpy.linalg import det
@@ -8,16 +12,42 @@ from structures.polygon import Polygon
 from structures.triangle import Triangle
 from structures.triangulation import Triangulation
 
-#TODO doc
+
 def find_start_point(points: List[Point]) -> Point:
-    # TODO doc
+    """
+    Finds starting point for sweep hull algorithm.
+
+    Args:
+        points: List of points in 2D plane.
+
+    Returns: First point in the list.
+    """
     return points[0]
 
 
 def sort_other_points(points: List[Point], start_point: Point) -> List[Point]:
-    # TODO doc
-    def _radial_key(_point: Point):
+    """
+    Sorts all points in ascending order by their euclidean distance from
+    starting point.
 
+    Args:
+        points: List of points in 2D plane.
+        start_point: Point from which distance to every other point is
+        calculated.
+
+    Returns: Sorted list of points.
+
+    """
+    def _radial_key(_point: Point):
+        """
+        Defines comparison key for sorting.
+
+        Args:
+            _point: Some point.
+
+        Returns: Euclidean distance from starting point.
+
+        """
         return _point.euclidean_dist_squared(start_point)
 
     points.sort(key=_radial_key)
@@ -25,9 +55,18 @@ def sort_other_points(points: List[Point], start_point: Point) -> List[Point]:
     return points
 
 
-def new_edges(t_points: List[Point], t_edges: List[LineSegment], point:
-              Point) -> List[LineSegment]:
-    # TODO doc
+def new_edges(t_points: List[Point], t_edges: List[LineSegment],
+              point: Point) -> List[LineSegment]:
+    """
+    Makes valid edges from one point to all points in triangulation so far.
+    Args:
+        t_points: Points in triangulation
+        t_edges: Edges in triangulation
+        point: Point that is not yet in triangulation.
+
+    Returns: List of valid LineSegments.
+
+    """
     n_edges = []
     for tri_p in t_points:
         new_edge = LineSegment(point, tri_p)
@@ -46,8 +85,19 @@ def new_edges(t_points: List[Point], t_edges: List[LineSegment], point:
 
 def find_pair_edge(triangulation: Triangulation, edge: LineSegment) -> Tuple[
                    LineSegment, List[Triangle]]:
+    """
+    For edge that is diagonal of a convex quadrilateral in triangulation,
+    finds other diagonal of that quadrilateral.
+
+    Args:
+        triangulation: Current triangulation
+        edge: Some non frontier edge in triangulation.
+
+    Returns: Other diagonal if quadrilateral is convex, edge if it is concave.
+
+    """
     faces = []
-    # TODO doc
+
     for triangle in triangulation.triangles:
         if edge in triangle.get_sides() or edge.reversed() in \
                 triangle.get_sides():
@@ -67,13 +117,28 @@ def find_pair_edge(triangulation: Triangulation, edge: LineSegment) -> Tuple[
 
 def flip_edges(triangulation: Triangulation, edges_to_flip: List[
                LineSegment]) -> None:
-    # TODO doc
+    """
+    For list of potential illegal edges, flips all that should be flipped.
+
+    Args:
+        triangulation: Current triangulation
+        edges_to_flip: List of potential illegal edges.
+
+    """
     for edge in edges_to_flip:
         flip_edge(triangulation, edge)
 
 
 def flip_edge(triangulation: Triangulation, edge: LineSegment) -> None:
-    # TODO doc
+    """
+    If edge is illegal, replaces it with its pair and recursivly flips
+    neighboring edges if they need flipping, else leaves this as they are.
+
+    Args:
+        triangulation: Current triangulation.
+        edge: Potential illegal edge.
+
+    """
     pair, faces = find_pair_edge(triangulation, edge)
 
     quad = Polygon([edge.first, pair.first, edge.second])
@@ -94,7 +159,16 @@ def flip_edge(triangulation: Triangulation, edge: LineSegment) -> None:
 
 
 def empty_circle(quad: Polygon) -> bool:
-    # TODO doc
+    """
+    Tests if circle that contains points a b and c, also contains point d.
+    If it does, then the edge ac is illegal and ould be replaced with edge bc.
+
+    Args:
+        quad: quadrilateral in triangulation.
+
+    Returns: True if circle is empty, false otherwise.
+    """
+
     a, b, c, d = quad.points
     matrix = [[a.x, a.y, a.x * a.x + a.y * a.y, 1],
               [b.x, b.y, b.x * b.x + b.y * b.y, 1],
@@ -104,9 +178,18 @@ def empty_circle(quad: Polygon) -> bool:
     return det(matrix) < 0
 
 
-def add_triangles(triangulation: Triangulation, point: Point, t_points:
-                  List[Point]) -> None:
-    # TODO doc
+def add_triangles(triangulation: Triangulation, point: Point,
+                  t_points: List[Point]) -> None:
+
+    """
+    Adds triangles from new point to triangulation.
+
+    Args:
+        triangulation: Current triangulation.
+        point: New point that is not yet in triangulation.
+        t_points: Points in triangulation.
+
+    """
     t_edges = triangulation.get_edges()
     n_edges = new_edges(t_points, t_edges, point)
     edges_to_flip = []
@@ -136,7 +219,16 @@ def add_triangles(triangulation: Triangulation, point: Point, t_points:
 
 
 def delaunay_triangulation(polygon: Polygon) -> Triangulation:
-    # TODO doc
+    """
+    Generates Delaunay triangulation from a given set of points.
+
+    Args:
+        polygon: Polygon object that contains list of points in 2D plane.
+
+    Returns: Triangulation object containing list of triangles that form
+             Delaunay triangulation of passed polygon.
+
+    """
     polygon.make_simple()
     start_point = find_start_point(polygon.points)
     polygon.points = sort_other_points(polygon.points, start_point)

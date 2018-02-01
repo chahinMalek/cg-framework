@@ -79,9 +79,7 @@ def clear() -> None:
 
 def delaunay() -> None:
     polygon = Polygon(points)
-    a = time()
     triangulation = delaunay_triangulation(polygon)
-    print(len(points), ": ", time() - a)
     for triangle in triangulation.triangles:
         triangle.draw(canvas)
 
@@ -102,20 +100,27 @@ sidebar.grid(row=0, column=1)
 
 
 Button(sidebar, text='Make polygon',
-       command=make_polygon, padx=29, pady=5).grid(row=0, column=1)
+       command=make_polygon, padx=59, pady=5).grid(row=0, column=1)
+Frame(sidebar, height=5).grid(row=1, column=1)
 Button(sidebar, text='Make simple polygon',
-       command=make_simple_polygon, padx=13, pady=5).grid(row=1, column=1)
+       command=make_simple_polygon, padx=43, pady=5).grid(row=2, column=1)
+Frame(sidebar, height=5).grid(row=3, column=1)
 Button(sidebar, text='Is convex?',
-       command=is_convex, padx=36, pady=5).grid(row=2, column=1)
+       command=is_convex, padx=66, pady=5).grid(row=4, column=1)
+Frame(sidebar, height=5).grid(row=5, column=1)
 Button(sidebar, text='Make convex hull',
-       command=make_convex_hull, padx=21, pady=5).grid(row=3, column=1)
+       command=make_convex_hull, padx=51, pady=5).grid(row=6, column=1)
+Frame(sidebar, height=5).grid(row=7, column=1)
 Button(sidebar, text='Contains point',
-       command=contains_point, padx=27, pady=5).grid(row=4, column=1)
+       command=contains_point, padx=58, pady=5).grid(row=8, column=1)
+Frame(sidebar, height=5).grid(row=9, column=1)
 Button(sidebar, text='Does intersect?',
-       command=line_segs, padx=25, pady=5).grid(row=5, column=1)
+       command=line_segs, padx=55, pady=5).grid(row=10, column=1)
+Frame(sidebar, height=5).grid(row=11, column=1)
 Button(sidebar, text='Clear',
-       command=clear, padx=49, pady=5).grid(row=6, column=1)
+       command=clear, padx=80, pady=5).grid(row=12, column=1)
+Frame(sidebar, height=5).grid(row=13, column=1)
 Button(sidebar, text='Delaunay',
-       command=delaunay, padx=40, pady=5).grid(row=7, column=1)
+       command=delaunay, padx=70, pady=5).grid(row=14, column=1)
 
 root.mainloop()
